@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Models;
+namespace App\Models\Orders;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pizza extends Model
+class Orders extends Model
 {
     use HasFactory;
 }

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pizzas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->unsigned()->default(1);
 
             $table->integer('category_id')->unsigned();
 

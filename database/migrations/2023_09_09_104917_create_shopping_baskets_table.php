@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('shopping_baskets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->unsigned()->default(1);
 
             $table->string('slug')->unique();
             $table->integer('pizza_id')->unsigned();

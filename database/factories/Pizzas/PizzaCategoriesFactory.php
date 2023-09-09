@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Pizzas;
 
 use App\Models\Pizzas\PizzaCategories;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class PizzaCategoriesFactory extends Factory
 {
     protected $model = PizzaCategories::class;
+
     public function definition(): array
     {
         return [
-            //
+            'slug' => $this->faker->slug,
+            'title' => $this->faker->text(10),
         ];
     }
 }

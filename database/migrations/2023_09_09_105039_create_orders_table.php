@@ -16,9 +16,9 @@ return new class extends Migration
             $table->integer('parent_id')->unsigned()->default(0);
 
             $table->string('slug')->unique();
-            $table->integer('basket_id');
+            $table->integer('basket_id')->unsigned();
             $table->dateTime('order_date');
-            $table->integer('status_id');
+            $table->integer('status_id')->unsigned();
 
             $table->timestamps();
             $table->softDeletes();

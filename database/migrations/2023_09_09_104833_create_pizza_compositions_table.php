@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('pizza_id')->unsigned();
 
             $table->string('slug')->unique();
-            $table->integer('ingredients_id');
+            $table->integer('ingredients_id')->unsigned();
             $table->float('price');
 
             $table->timestamps();

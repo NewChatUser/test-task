@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('parent_id')->unsigned()->default(0);
 
             $table->string('slug')->unique();
-            $table->integer('pizza_id');
-            $table->integer('size_id');
+            $table->integer('pizza_id')->unsigned();
+            $table->integer('size_id')->unsigned();
             $table->integer('quantity');
             $table->float('total_cost');
 

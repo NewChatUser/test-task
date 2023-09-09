@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ingredients', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->integer('parent_id')->unsigned()->default(0);
+
+            $table->string('slug')->unique();
+            $table->string('title');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

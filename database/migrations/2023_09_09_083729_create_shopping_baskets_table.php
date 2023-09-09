@@ -12,8 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shopping_baskets', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->integer('parent_id')->unsigned()->default(0);
+
+            $table->string('slug')->unique();
+            $table->integer('pizza_id');
+            $table->integer('size_id');
+            $table->integer('quantity');
+            $table->float('total_cost');
+
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('pizza_id')->references('id')->on('pizza_lists');
+            $table->foreign('size_id')->references('id')->on('pizza_sizes');
         });
     }
 

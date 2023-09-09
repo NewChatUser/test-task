@@ -11,21 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pizza_lists', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->unsigned()->default(0);
 
-            $table->integer('pizza_id')->unsigned();
-
             $table->string('slug')->unique();
-            $table->integer('ingredients_id');
-            $table->float('price');
+            $table->string('title');
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('pizza_id')->references('id')->on('pizza_lists');
-            $table->foreign('ingredients_id')->references('id')->on('ingredients');
         });
     }
 
@@ -34,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pizza_lists');
+        Schema::dropIfExists('order_statuses');
     }
 };

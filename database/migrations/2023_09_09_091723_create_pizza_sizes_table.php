@@ -11,9 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingredients_units', function (Blueprint $table) {
-            $table->id();
+        Schema::create('pizza_sizes', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->string('slug')->unique();
+            $table->text('size');
+            $table->float('margin');
+
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredients_units');
+        Schema::dropIfExists('pizza_sizes');
     }
 };

@@ -16,7 +16,7 @@ class PizzaCategoriesFactory extends Factory
     {
         return [
             'slug' => $this->faker->slug,
-            'title' => $this->faker->text(10),
+            'title' => $this->faker->colorName,
         ];
     }
 }

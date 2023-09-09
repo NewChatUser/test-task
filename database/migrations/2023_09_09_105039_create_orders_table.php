@@ -15,15 +15,19 @@ return new class extends Migration
             $table->increments('id');
 
             $table->string('slug')->unique();
-            $table->integer('basket_id')->unsigned();
+            $table->integer('pizza_id')->unsigned();
+            $table->integer('size_id')->unsigned();
+            $table->integer('quantity');
+            $table->float('total_cost');
             $table->dateTime('order_date');
             $table->integer('status_id')->unsigned();
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('basket_id')->references('id')->on('shopping_baskets');
             $table->foreign('status_id')->references('id')->on('order_statuses');
+            $table->foreign('pizza_id')->references('id')->on('pizza_compositions');
+            $table->foreign('size_id')->references('id')->on('pizza_sizes');
         });
     }
 

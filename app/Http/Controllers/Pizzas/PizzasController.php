@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers\Pizzas;
 
-class PizzasController
-{
+use App\Models\Pizzas\Pizzas;
+use Illuminate\Routing\Controller;
 
+class PizzasController extends Controller
+{
+    public function index()
+    {
+        $categories = Pizzas::all();
+        dd($categories);
+    }
 }

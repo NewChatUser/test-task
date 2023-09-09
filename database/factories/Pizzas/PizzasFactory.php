@@ -16,7 +16,7 @@ class PizzasFactory extends Factory
         return [
             'category_id' => $this->pizza_categories::get()->random()->id,
             'slug' => $this->faker->slug,
-            'title' => $this->faker->text(10),
+            'title' => $this->faker->name,
         ];
     }
 }

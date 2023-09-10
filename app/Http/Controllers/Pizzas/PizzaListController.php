@@ -13,6 +13,7 @@ class PizzaListController extends Controller
         $pizza_list = PizzaList::join('pizzas as p', 'pizza_lists.pizza_id', '=', 'p.id')
             ->join('ingredients as i', 'pizza_lists.ingredients_id', '=', 'i.id')
             ->select('p.title as pizza', 'i.title as ingredients', 'price');
-        dd($pizza_list->get()->toArray());
+//        dd($pizza_list->get()->toArray());
+        return view('Pizza\list');
     }
 }

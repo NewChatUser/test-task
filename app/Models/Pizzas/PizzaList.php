@@ -12,7 +12,11 @@ class PizzaList extends Model
 
     protected $table = 'pizza_lists';
     protected $primaryKey = 'id';
-    protected $fillable = [];
+    protected $fillable = [
+        'pizza_id',
+        'ingredients_id',
+        'price'
+    ];
 
     public function pizza(): HasMany
     {

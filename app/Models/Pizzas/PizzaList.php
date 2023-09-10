@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PizzaList extends Model
 {
     use HasFactory;
+
+    protected $table = 'pizza_lists';
+    protected $fillable = [];
 }

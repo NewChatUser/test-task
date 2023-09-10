@@ -17,7 +17,7 @@ class SizeFactory extends Factory
         return [
             'slug'      => $this->faker->slug,
             'title'     => '25cm',
-            'markup'    => 0.1
+            'markup'    => 1.0
         ];
     }
 }

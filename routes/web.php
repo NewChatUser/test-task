@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Pizzas\PizzaCategoriesController;
-use App\Http\Controllers\Pizzas\PizzasController;
+
+use App\Http\Controllers\Pizzas\PizzaListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/categories', [PizzaCategoriesController::class, 'index']);
-Route::get('/categories/pizza', [PizzasController::class, 'index']);
+Route::get('/pizza', [PizzaListController::class, 'index']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

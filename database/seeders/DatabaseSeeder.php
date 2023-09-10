@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\Customers\CustomerSeeder;
 use Database\Seeders\Pizzas\IngredientSeeder;
 use Database\Seeders\Pizzas\PizzaListSeeder;
 use Database\Seeders\Pizzas\PizzaSeeder;
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
 //        $this->call(PizzaSeeder::class);
 //        $this->call(IngredientSeeder::class);
 //        $this->call(PizzaListSeeder::class);
-        $this->call(SizeSeeder::class);
+//        $this->call(SizeSeeder::class);
+        $this->call(CustomerSeeder::class);
     }
 
 }

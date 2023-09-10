@@ -20,10 +20,10 @@ class PizzaListFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug'              => $this->faker->slug,
-            'pizza_id'          => $this->pizza::get()->random()->id,
-            'ingredients_id'    => $this->ingredient::get()->random()->id,
-            'price'             => random_int(200, 500),
+            'slug'             => $this->faker->slug,
+            'pizza_id'         => $this->pizza::get()->random()->id,
+            'ingredients_id'   => $this->ingredient::get()->random()->id,
+            'price'            => random_int(200, 500),
         ];
     }
 }

@@ -15,8 +15,8 @@ class PizzaFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug' => $this->faker->slug,
-            'title' => $this->faker->name,
+            'slug'      => $this->faker->slug,
+            'title'     => $this->faker->name,
         ];
     }
 }

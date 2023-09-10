@@ -15,9 +15,9 @@ class SizeFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug'=>$this->faker->slug,
-            'title'=>'25cm',
-            'markup'=>0.1
+            'slug'      => $this->faker->slug,
+            'title'     => '25cm',
+            'markup'    => 0.1
         ];
     }
 }

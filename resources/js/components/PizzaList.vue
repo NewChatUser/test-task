@@ -3,7 +3,9 @@
     export default {
         data() {
             return {
-                pizzas: []
+                pizzas: {
+                    title: '',
+                }
             }
         },
          async created() {
@@ -18,8 +20,8 @@
 </script>
 
 <template>
-    <div class="post" v-for="pizza in pizzas" :key="pizza.id">
-        <div><strong>Название:</strong> {{ pizza }}</div>
+    <div class="post" v-for="pizza in pizzas">
+        <div><strong>Название:</strong> {{ pizza.title }}</div>
     </div>
 </template>
 

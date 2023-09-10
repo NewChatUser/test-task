@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pizza_lists', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->string('slug')->unique();
             $table->integer('pizza_id')->unsigned();
             $table->integer('ingredients_id')->unsigned();
             $table->double('price');

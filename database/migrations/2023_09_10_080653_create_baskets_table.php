@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('baskets', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->string('slug')->unique();
             $table->integer('pizza_list_id')->unsigned();
             $table->integer('size_id')->unsigned();
             $table->integer('quantity');

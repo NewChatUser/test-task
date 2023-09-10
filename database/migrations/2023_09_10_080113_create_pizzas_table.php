@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pizzas', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->string('slug')->unique();
             $table->string('title');
 
             $table->timestamps();

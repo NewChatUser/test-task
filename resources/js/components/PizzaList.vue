@@ -26,13 +26,11 @@ export default {
 
 <template>
     <div class="post" v-for="pizza in pizzas">
-
-        <div><strong>{{ pizza.pizza }}</strong> </div>
-        <div ><strong>Ингридиенты:</strong> {{ pizza.ingredients }}</div>
-        <div><strong>Цена:</strong> {{ pizza.price }}</div>
+        <div><strong>{{ pizza.name }}</strong> </div>
+        <div><strong>Ингридиенты:</strong> {{ pizza.ingredients.join(', ') }}</div>
+        <div><strong>Цена:</strong> {{ pizza.price }}р</div>
         <button> Добавить в корзину </button>
     </div>
-
 </template>
 
 <style>

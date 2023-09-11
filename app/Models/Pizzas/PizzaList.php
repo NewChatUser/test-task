@@ -4,28 +4,26 @@ namespace App\Models\Pizzas;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PizzaList extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $table = 'pizza_lists';
-    protected $primaryKey = 'id';
+
     protected $fillable = [
+        'slug',
         'pizza_id',
         'ingredients_id',
     ];
 
-    public function pizza(): HasMany
+    public function pizzas()
     {
-        return $this->hasMany(Pizza::class, 'pizza_id', 'id');
+        return $this->belongsTo(Pizza::class, 'pizza_id');
     }
 
-    public function ingredient(): HasMany
+    public function ingredients()
     {
-        return $this->hasMany(Ingredient::class, 'ingredients_id', 'id');
+        return $this->belongsTo(Ingredient::class, 'ingredients_id');
     }
 }

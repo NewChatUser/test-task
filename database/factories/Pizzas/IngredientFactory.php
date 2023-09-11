@@ -16,7 +16,7 @@ class IngredientFactory extends Factory
     {
         return [
             'slug'      => $this->faker->slug,
-            'title'     => $this->faker->name,
+            'title'     => $this->faker->colorName,
         ];
     }
 }

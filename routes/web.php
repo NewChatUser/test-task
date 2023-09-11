@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\Pizzas\PizzaListController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PizzaListController::class, 'show']);
-
 //Auth::routes();
 //
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

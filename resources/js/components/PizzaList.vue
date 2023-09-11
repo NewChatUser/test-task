@@ -1,28 +1,38 @@
 <script>
-    import axios from "axios";
-    export default {
-        data() {
-            return {
-                pizzas: {
-                    title: '',
-                }
-            }
-        },
-         async created() {
+import axios from "axios";
+
+export default {
+    data() {
+        return {
+            pizzas: []
+        }
+    },
+    methods: {
+        async index() {
             try {
                 const response = await axios.get('/api/pizza_lists');
+                console.log(response.data)
                 this.pizzas = response.data;
             } catch (error) {
                 console.error(error);
             }
-         }
+        }
+    },
+    mounted() {
+        this.index();
     }
+}
 </script>
 
 <template>
     <div class="post" v-for="pizza in pizzas">
-        <div><strong>Название:</strong> {{ pizza.title }}</div>
+
+        <div><strong>{{ pizza.pizza }}</strong> </div>
+        <div ><strong>Ингридиенты:</strong> {{ pizza.ingredients }}</div>
+        <div><strong>Цена:</strong> {{ pizza.price }}</div>
+        <button> Добавить в корзину </button>
     </div>
+
 </template>
 
 <style>
@@ -36,5 +46,6 @@
     margin: 10px;
     padding: 10px;
     border: 2px solid darkslateblue;
+    border-radius: 10px;
 }
 </style>

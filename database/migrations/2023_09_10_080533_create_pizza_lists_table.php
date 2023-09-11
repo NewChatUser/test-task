@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('pizza_id')->unsigned();
             $table->integer('ingredients_id')->unsigned();
-            $table->double('price');
 
             $table->timestamps();
             $table->softDeletes();

@@ -17,6 +17,7 @@ class PizzaFactory extends Factory
         return [
             'slug'      => $this->faker->slug,
             'title'     => $this->faker->name,
+            'price'     => random_int(200, 500),
         ];
     }
 }

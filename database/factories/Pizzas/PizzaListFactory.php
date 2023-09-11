@@ -23,7 +23,6 @@ class PizzaListFactory extends Factory
             'slug'             => $this->faker->slug,
             'pizza_id'         => $this->pizza::get()->random()->id,
             'ingredients_id'   => $this->ingredient::get()->random()->id,
-            'price'            => random_int(200, 500),
         ];
     }
 }

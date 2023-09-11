@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PizzaListController::class, 'index']);
+Route::get('/', [PizzaListController::class, 'show']);
 
 //Auth::routes();
 //

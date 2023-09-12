@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('slug')->unique();
             $table->string('title');
-            $table->double('price');
+            $table->float('price');
 
             $table->timestamps();
             $table->softDeletes();

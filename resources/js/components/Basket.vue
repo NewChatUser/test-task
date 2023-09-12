@@ -3,7 +3,7 @@
 
 <template>
 <div class="basket">
-    <div><strong>НАзвание пиццы</strong></div>
+    <div><strong>Название пиццы</strong></div>
     <div>
         <strong>Размер:</strong>
     </div>

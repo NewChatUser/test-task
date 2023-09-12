@@ -10,7 +10,12 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
-    public function addToBasket(Request $request)
+    public function index()
+    {
+        return Basket::all();
+    }
+
+    public function store(Request $request)
     {
         $pizzaId = $request->input('pizza_id');
         $sizeId = $request->input('size_id');
@@ -31,20 +36,48 @@ class BasketController extends Controller
         }
 
         // Вычислите цену с учетом множителя размера
-        $price = $pizza->price * $size->multiplier;
-
+        $totalPrice = floatval($pizza->price) * floatval($size->markup);
+//        dd($price);
         // Добавьте пиццу с размером в корзину
         Basket::create([
             'pizza_id' => $pizzaId,
             'size_id' => $sizeId,
             'quantity' => $quantity,
-            'price' => $price, // Учтите цену с учетом размера
+            'total_price' => $totalPrice, // Учтите цену с учетом размера
         ]);
 
         return response()->json(['message' => 'Пицца добавлена в корзину']);
     }
 
-    public function show() {
+    /**
+     * Display the specified resource.
+     */
+    public function show()
+    {
         return view('Basket.list');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }

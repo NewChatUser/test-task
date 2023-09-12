@@ -14,16 +14,15 @@ return new class extends Migration
         Schema::create('baskets', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('slug')->unique();
-            $table->integer('pizza_list_id')->unsigned();
+            $table->integer('pizza_id')->unsigned();
             $table->integer('size_id')->unsigned();
             $table->integer('quantity');
-            $table->double('total_price');
+            $table->float('total_price');
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('pizza_list_id')->references('id')->on('pizza_lists');
+            $table->foreign('pizza_id')->references('id')->on('pizzas');
             $table->foreign('size_id')->references('id')->on('sizes');
         });
     }

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Pizzas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Baskets\Basket;
+use App\Models\Pizzas\Pizza;
 use App\Models\Pizzas\PizzaList;
+use App\Models\Pizzas\Size;
+use Illuminate\Http\Request;
 
 
 class PizzaListController extends Controller
@@ -19,6 +23,7 @@ class PizzaListController extends Controller
         // Обработайте результаты и сгруппируйте их по пиццам
         foreach ($pizzaLists as $pizzaList) {
             $pizzaName = $pizzaList->pizzas->title;
+            $pizzaId = $pizzaList->pizzas->id;
             $ingredientName = $pizzaList->ingredients->title;
             $price = $pizzaList->pizzas->price;
 
@@ -33,6 +38,7 @@ class PizzaListController extends Controller
 
             if (!$foundPizza) {
                 $pizzas[] = [
+                    'id' => $pizzaId,
                     'name' => $pizzaName,
                     'price' => $price,
                     'ingredients' => [],
@@ -50,6 +56,8 @@ class PizzaListController extends Controller
 
         return response()->json($pizzas);
     }
+
+
 
     public function show()
     {

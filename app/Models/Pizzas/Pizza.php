@@ -17,9 +17,4 @@ class Pizza extends Model
         'title',
         'price',
     ];
-
-//    public function pizzaLists()
-//    {
-//        return $this->hasMany(PizzaList::class, 'pizza_id');
-//    }
 }

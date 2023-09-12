@@ -19,11 +19,13 @@ export default {
         },
         async addToBasket(pizzaId) {
             try {
-                const response = await axios.post('/api/basket', {
-                    pizza_list_id: pizzaId,
+                console.log(pizzaId);
+                const response = await axios.post(`/api/basket`, {
+                    pizza_id: pizzaId,
                     quantity: 1,
-                    size_id: 1
+                    size_id: 1,
                 });
+
                 alert(response.data.message);
             } catch (error) {
                 console.error(error)

@@ -2,7 +2,7 @@
 
 namespace App\Models\Baskets;
 
-use App\Models\Pizzas\PizzaList;
+use App\Models\Pizzas\Pizza;
 use App\Models\Pizzas\Size;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,15 +14,15 @@ class Basket extends Model
 
     protected $fillable = [
         'slug',
-        'pizza_list_id',
+        'pizza_id',
         'size_id',
         'quantity',
         'total_price',
     ];
 
-    public function pizzaList()
+    public function pizzas()
     {
-        return $this->belongsTo(PizzaList::class, 'pizza_list_id');
+        return $this->belongsTo(Pizza::class, 'pizza_id');
     }
 
     public function size()

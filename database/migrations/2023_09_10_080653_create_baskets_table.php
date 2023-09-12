@@ -19,14 +19,12 @@ return new class extends Migration
             $table->integer('size_id')->unsigned();
             $table->integer('quantity');
             $table->double('total_price');
-            $table->integer('customer_id')->unsigned();
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('pizza_list_id')->references('id')->on('pizza_lists');
             $table->foreign('size_id')->references('id')->on('sizes');
-            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 

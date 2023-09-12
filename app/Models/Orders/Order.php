@@ -2,7 +2,6 @@
 
 namespace App\Models\Orders;
 
-use App\Models\Customers\Customer;
 use App\Models\Pizzas\PizzaList;
 use App\Models\Pizzas\Size;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +18,6 @@ class Order extends Model
         'size_id',
         'quantity',
         'total_price',
-        'customer_id',
         'order_date',
         'status_id',
     ];
@@ -32,11 +30,6 @@ class Order extends Model
     public function size()
     {
         return $this->belongsTo(Size::class, 'size_id');
-    }
-
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function status()

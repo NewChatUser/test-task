@@ -11,6 +11,5 @@ class PizzaController extends Controller
     public function index()
     {
         $pizza = Pizza::all();
-        dd($pizza);
     }
 }

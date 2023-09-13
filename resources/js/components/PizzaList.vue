@@ -14,8 +14,8 @@ export default {
                 const response = await axios.get('/api/pizza_lists');
                 this.pizzas = response.data.map(pizza => ({
                     ...pizza,
-                    selectedSizeId: 1, // Изначально не выбран размер для каждой пиццы
-                    quantity: 1, // Изначальное количество
+                    selectedSizeId: 1,
+                    quantity: 1,
                 }));
             } catch (error) {
                 console.error(error);
@@ -27,6 +27,18 @@ export default {
                 this.sizes = response.data;
             } catch (error) {
                 console.error(error);
+            }
+        },
+        async addToBasket(pizzaId, sizeId, quantity) {
+            try {
+                const response = await axios.post(`/api/basket`, {
+                    pizza_id: pizzaId,
+                    size_id: sizeId,
+                    quantity: quantity,
+                });
+                alert(response.data.message);
+            } catch (error) {
+                console.error(error)
             }
         },
         selectSize(pizza, size) {
@@ -48,18 +60,7 @@ export default {
                 return parseFloat(pizza.price).toFixed(2);
             }
         },
-        async addToBasket(pizzaId, sizeId, quantity) {
-            try {
-                const response = await axios.post(`/api/basket`, {
-                    pizza_id: pizzaId,
-                    size_id: sizeId,
-                    quantity: quantity,
-                });
-                alert(response.data.message);
-            } catch (error) {
-                console.error(error)
-            }
-        },
+
     },
     mounted() {
         this.addPizzaList();
@@ -84,9 +85,11 @@ export default {
                     {{ size.name }}
                 </button>
             </div>
-            <button class="btn-quantity" @click="decrementQuantity(pizza)">-</button>
-            {{ pizza.quantity }}
-            <button class="btn-quantity" @click="incrementQuantity(pizza)">+</button>
+            <div>
+                <button class="btn-quantity" @click="decrementQuantity(pizza)">-</button>
+                {{ pizza.quantity }}
+                <button class="btn-quantity" @click="incrementQuantity(pizza)">+</button>
+            </div>
             <div class="card"><strong>Цена:</strong> {{ calculatePrice(pizza) }}р
             </div>
         </div>
@@ -149,9 +152,7 @@ export default {
     background-color: #ccc;
     color: #000;
     padding: 5px 10px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin: 5px;
     border: none;
     cursor: pointer;
     border-radius: 10px;

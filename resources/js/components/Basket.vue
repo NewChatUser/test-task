@@ -6,11 +6,6 @@ export default {
         return {
             baskets: [],
             sizes: [],
-            selectedSize: {
-                id: null,
-                multiplier: 1,
-            },
-            quantity: 0,
         };
     },
     methods: {
@@ -18,7 +13,11 @@ export default {
             try {
                 const response = await axios.get('/api/basket');
                 console.log(response.data)
-                this.baskets = response.data;
+                this.baskets = response.data.map(basket => ({
+                    ...basket,
+                    selectedSizeId: basket.size_id,
+                    quantity: basket.quantity,
+                }));
             } catch (error) {
                 console.error(error);
             }
@@ -32,6 +31,17 @@ export default {
                 console.error(error);
             }
         },
+        async updateBasket(basketId, newSizeId, newQuantity) {
+            try {
+                const response = await axios.put(`/api/basket/${basketId}`, {
+                    size_id: newSizeId,
+                    quantity: newQuantity,
+                });
+                alert(response.data.message);
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async removeFromBasket(basketId) {
             try {
                 await axios.delete(`/api/basket/${basketId}`);
@@ -41,16 +51,46 @@ export default {
                 console.error(error);
             }
         },
-        selectSize(size) {
-            this.selectedSize.id = size.id;
-            this.selectedSize.multiplier = size.multiplier;
-        },
-        calculatePrice(pizza) {
-            if (this.selectedSize.id) {
-                return (parseFloat(pizza.price) * this.selectedSize.multiplier).toFixed(2); // Округляем до двух знаков после запятой
-            } else {
-                return parseFloat(pizza.price).toFixed(2);
+        async placeOrder(basketId, pizzaId, sizeId, quantity, totalPrice) {
+            try {
+                const response = await axios.post('/api/order', {
+                    pizza_id: pizzaId,
+                    size_id: sizeId,
+                    quantity: quantity,
+                    total_price: totalPrice,
+                });
+                if (response.status === 200) {
+                    // Очистить корзину или выполнить другие необходимые действия
+                    this.removeFromBasket(basketId);
+                    alert('Заказ успешно оформлен!');
+                } else {
+                    alert('Произошла ошибка при оформлении заказа.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Произошла ошибка при оформлении заказа.');
             }
+        },
+        selectSize(basket, size) {
+            if (size && size.id) {
+                basket.selectedSizeId = size.id; // Устанавливаем выбранный размер для данной пиццы
+            }
+        },
+        calculatePrice(basket) {
+            const selectedSize = this.sizes.find(size => size.id === basket.selectedSizeId);
+            if (selectedSize) {
+                return (parseFloat(basket.price) * selectedSize.multiplier * basket.quantity).toFixed(2);
+            } else {
+                return parseFloat(basket.price).toFixed(2);
+            }
+        },
+        decrementQuantity(basket) {
+            if (basket.quantity > 1) {
+                basket.quantity--;
+            }
+        },
+        incrementQuantity(basket) {
+            basket.quantity++;
         },
     },
     mounted() {
@@ -68,19 +108,23 @@ export default {
             <div class="btn-group">
                 <button
                     class="btn-size"
-                    :class="{ selected: size.id === selectedSize.id }"
-                    @click="selectSize(size)"
+                    :class="{ selected: size.id === basket.selectedSizeId }"
+                    @click="selectSize(basket, size), updateBasket(basket.id, size.id, basket.quantity)"
                     v-for="size in sizes"
                     :key="size.id"
                 >
                     {{ size.name }}
                 </button>
             </div>
-            <div><strong>Колличество:</strong> {{ basket.quantity }}</div>
-            <div><strong>Цена:</strong> {{ basket.total_price }}</div>
+            <div>
+                <button class="btn-quantity" @click="decrementQuantity(basket), updateBasket(basket.id, basket.size_id, basket.quantity)">-</button>
+                {{ basket.quantity }}
+                <button class="btn-quantity" @click="incrementQuantity(basket), updateBasket(basket.id, basket.size_id, basket.quantity)">+</button>
+            </div>
+            <div><strong>Цена:</strong> {{ basket.total_price }}р</div>
         </div>
         <div class="pizza-add-to-cart">
-            <button class="btn">Офрмить заказ</button>
+            <button class="btn" @click="placeOrder(basket.id, basket.pizza_id, basket.size_id, basket.quantity, basket.total_price)">Офрмить заказ</button>
             <button class="btn" @click="removeFromBasket(basket.id)">Удалить из корзины</button>
         </div>
     </div>
@@ -139,12 +183,6 @@ export default {
     background-color: darkslateblue;
     color: #fff;
     border-radius: 10px;
-}
-
-.pizza-card {
-    display: block;
-    align-items: center;
-    justify-content: flex-start;
 }
 
 .pizza-add-to-cart {

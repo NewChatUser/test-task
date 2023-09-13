@@ -12,7 +12,7 @@ export default {
                     href: '/basket',
                 },
                 {
-                    title: 'Заказ',
+                    title: 'Заказы',
                     href: '/order',
                 }
             ]

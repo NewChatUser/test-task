@@ -19,14 +19,12 @@ return new class extends Migration
             $table->integer('quantity');
             $table->float('total_price');
             $table->date('order_date');
-            $table->integer('status_id')->unsigned();
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('pizza_id')->references('id')->on('pizzas');
             $table->foreign('size_id')->references('id')->on('sizes');
-            $table->foreign('status_id')->references('id')->on('statuses');
         });
     }
 

@@ -15,9 +15,4 @@ class Ingredient extends Model
         'slug',
         'title',
     ];
-
-    public function pizzaLists()
-    {
-        return $this->hasMany(PizzaList::class, 'ingredients_id');
-    }
 }

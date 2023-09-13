@@ -17,13 +17,19 @@ class BasketController extends Controller
         $baskets = [];
 
         foreach ($basketLists as $basketList) {
+            $basketId = $basketList->id;
+            $pizzaId = $basketList->pizzas->id;
             $pizzaName = $basketList->pizzas->title;
             $pizzaSize = $basketList->sizes->title;
+            $sizeId = $basketList->sizes->id;
             $quantity = $basketList->quantity;
             $totalPrice = $basketList->total_price;
 
             $baskets[] = [
+                'id' => $basketId,
+                'pizza_id' => $pizzaId,
                 'name' => $pizzaName,
+                'size_id' => $sizeId,
                 'size' => $pizzaSize,
                 'quantity' => $quantity,
                 'total_price' => $totalPrice,
@@ -55,7 +61,7 @@ class BasketController extends Controller
         }
 
         // Вычислите цену с учетом множителя размера
-        $totalPrice = floatval($pizza->price) * floatval($size->multiplier);
+        $totalPrice = floatval($pizza->price) * floatval($size->multiplier) * $quantity;
 //        dd($price);
         // Добавьте пиццу с размером в корзину
         Basket::create([
@@ -89,7 +95,43 @@ class BasketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Найдите заказ в корзине по его ID
+        $basket = Basket::findOrFail($id);
+
+        $pizzaId = $basket->pizza_id;
+        $sizeId = $basket->size_id;
+        $quantity = $basket->quantity;
+
+        // Получите параметры для обновления
+        $newSizeId = request('size_id');
+        $newQuantity = request('quantity');
+
+        // Проверьте, существует ли пицца с указанным ID
+        $pizza = Pizza::find($pizzaId);
+
+        if (!$pizza) {
+            return response()->json(['message' => 'Пицца не найдена'], 404);
+        }
+
+        // Проверьте, существует ли размер с указанным ID
+        $size = Size::find($sizeId);
+
+        if (!$size) {
+            return response()->json(['message' => 'Размер не найден'], 404);
+        }
+
+        $totalPrice = floatval($pizza->price) * floatval($size->multiplier) * $quantity;
+
+        // Обновите заказ в базе данных
+        $basket->update([
+            'size_id' => $newSizeId,
+            'quantity' => $newQuantity,
+            'total_price' => $totalPrice
+            // Другие поля, которые вы хотите обновить
+        ]);
+
+        // Отправьте успешный ответ или сообщение
+        return response()->json(['message' => 'Заказ в корзине успешно обновлен']);
     }
 
     /**

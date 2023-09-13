@@ -19,7 +19,6 @@ class Order extends Model
         'quantity',
         'total_price',
         'order_date',
-        'status_id',
     ];
 
     public function pizzas()
@@ -27,13 +26,8 @@ class Order extends Model
         return $this->belongsTo(Pizza::class, 'pizza_id');
     }
 
-    public function size()
+    public function sizes()
     {
         return $this->belongsTo(Size::class, 'size_id');
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'status_id');
     }
 }

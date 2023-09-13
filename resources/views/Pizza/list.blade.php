@@ -8,11 +8,11 @@
     <title>Главная страница</title>
 </head>
 <body>
-    <div id="app">
-        <vue-page-navbar></vue-page-navbar>
-        <vue-pizza-list></vue-pizza-list>
-    </div>
-    @vite('resources/js/app.js')
+<div id="app">
+    <vue-page-navbar></vue-page-navbar>
+    <vue-pizza-list></vue-pizza-list>
+</div>
+@vite('resources/js/app.js')
 </body>
 </html>
 

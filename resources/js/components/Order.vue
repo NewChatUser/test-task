@@ -21,6 +21,7 @@ export default {
             try {
                 await axios.delete(`/api/order/${orderId}`);
                 this.orders = this.orders.filter((order) => order.id !== orderId);
+                alert('Заказ отменен!');
             } catch (error) {
                 console.error(error);
             }
@@ -37,8 +38,9 @@ export default {
         <div class="order-card">
             <div class="card-name">{{ order.name }}</div>
             <div class="card"><strong>Размер:</strong> {{ order.size }}</div>
-            <div><strong>Количество:</strong> {{ order.quantity }}</div>
+            <div class="card"><strong>Количество:</strong> {{ order.quantity }}</div>
             <div class="card"><strong>Цена:</strong> {{ order.total_price }}р</div>
+            <div class="card"><strong>Дата заказа:</strong> {{ order.order_date }}</div>
         </div>
         <div class="cancel-order">
             <button class="btn" @click="removeFromBasket(order.id)"> Отменить заказ</button>

@@ -19,6 +19,7 @@ class BasketController extends Controller
         foreach ($basketLists as $basketList) {
             $basketId = $basketList->id;
             $pizzaId = $basketList->pizzas->id;
+            $pizzaPrice = $basketList->pizzas->price;
             $pizzaName = $basketList->pizzas->title;
             $pizzaSize = $basketList->sizes->title;
             $sizeId = $basketList->sizes->id;
@@ -32,6 +33,7 @@ class BasketController extends Controller
                 'size_id' => $sizeId,
                 'size' => $pizzaSize,
                 'quantity' => $quantity,
+                'price' => $pizzaPrice,
                 'total_price' => $totalPrice,
             ];
 
@@ -99,8 +101,6 @@ class BasketController extends Controller
         $basket = Basket::findOrFail($id);
 
         $pizzaId = $basket->pizza_id;
-        $sizeId = $basket->size_id;
-        $quantity = $basket->quantity;
 
         // Получите параметры для обновления
         $newSizeId = request('size_id');
@@ -114,13 +114,13 @@ class BasketController extends Controller
         }
 
         // Проверьте, существует ли размер с указанным ID
-        $size = Size::find($sizeId);
+        $size = Size::find($newSizeId);
 
         if (!$size) {
             return response()->json(['message' => 'Размер не найден'], 404);
         }
 
-        $totalPrice = floatval($pizza->price) * floatval($size->multiplier) * $quantity;
+        $totalPrice = floatval($pizza->price) * floatval($size->multiplier) * $newQuantity;
 
         // Обновите заказ в базе данных
         $basket->update([

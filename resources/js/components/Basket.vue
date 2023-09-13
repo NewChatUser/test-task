@@ -78,6 +78,7 @@ export default {
         },
         calculatePrice(basket) {
             const selectedSize = this.sizes.find(size => size.id === basket.selectedSizeId);
+            console.log(basket.pizza_id.price)
             if (selectedSize) {
                 return (parseFloat(basket.price) * selectedSize.multiplier * basket.quantity).toFixed(2);
             } else {
@@ -121,7 +122,7 @@ export default {
                 {{ basket.quantity }}
                 <button class="btn-quantity" @click="incrementQuantity(basket), updateBasket(basket.id, basket.size_id, basket.quantity)">+</button>
             </div>
-            <div><strong>Цена:</strong> {{ basket.total_price }}р</div>
+            <div><strong>Цена:</strong> {{ calculatePrice(basket) }}р</div>
         </div>
         <div class="pizza-add-to-cart">
             <button class="btn" @click="placeOrder(basket.id, basket.pizza_id, basket.size_id, basket.quantity, basket.total_price)">Офрмить заказ</button>

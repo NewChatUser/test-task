@@ -41,7 +41,7 @@ export default {
 
 <template>
     <div class="pizza-list" v-for="pizza in pizzas">
-        <div class="card-name"><H1>{{ pizza.name }}</H1></div>
+        <div class="card-name">{{ pizza.name }}</div>
         <div class="card"><strong>Ингридиенты:</strong> {{ pizza.ingredients.join(', ') }}</div>
         <div class="card"><strong>Цена:</strong> {{ pizza.price }}р</div>
         <button class="btn" @click="addToBasket(pizza.id)"> Добавить в корзину</button>
@@ -64,11 +64,14 @@ export default {
 
 .card-name {
     margin-top: 5px;
+    font-size: 32px;
+    font-weight: bold;
 }
 
 .btn {
     margin-top: 5px;
-    align-self: flex-end;
+    display: -webkit-flex;
+    align-items: end;
     padding: 10px 15px;
     background: none;
     border-radius: 10px;

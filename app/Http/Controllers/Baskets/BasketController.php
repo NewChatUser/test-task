@@ -12,7 +12,43 @@ class BasketController extends Controller
 {
     public function index()
     {
-        return Basket::all();
+        $basketLists = Basket::with('pizzas', 'sizes')->get();
+
+        $baskets = [];
+
+        foreach ($basketLists as $basketList) {
+            $pizzaName = $basketList->pizzas->title;
+            $pizzaSize = $basketList->sizes->title;
+            $quantity = $basketList->quantity;
+            $totalPrice = $basketList->total_price;
+
+            $foundPizza = null;
+            foreach ($baskets as &$basket) {
+                if ($basket['name'] === $pizzaName) {
+                    $foundPizza = $basket;
+                    break;
+                }
+            }
+
+            $foundSize = null;
+            foreach ($baskets as &$basket) {
+                if ($basket['name'] === $pizzaSize) {
+                    $foundSize = $basket;
+                    break;
+                }
+            }
+
+            if (!$foundPizza && !$foundSize) {
+                $baskets[] = [
+                    'name' => $pizzaName,
+                    'size' => $pizzaSize,
+                    'quantity' => $quantity,
+                    'total_price' => $totalPrice,
+                ];
+            }
+        }
+
+        return response()->json($baskets);
     }
 
     public function store(Request $request)

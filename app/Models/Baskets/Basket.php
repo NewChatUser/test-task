@@ -13,7 +13,6 @@ class Basket extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'slug',
         'pizza_id',
         'size_id',
         'quantity',
@@ -25,7 +24,7 @@ class Basket extends Model
         return $this->belongsTo(Pizza::class, 'pizza_id');
     }
 
-    public function size()
+    public function sizes()
     {
         return $this->belongsTo(Size::class, 'size_id');
     }

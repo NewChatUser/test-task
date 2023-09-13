@@ -1,17 +1,41 @@
 <script>
+import axios from "axios";
+
+export default {
+    data() {
+        return {
+            baskets: [],
+        };
+    },
+    methods: {
+        async index() {
+            try {
+                const response = await axios.get('/api/basket');
+                console.log(response.data)
+                this.baskets = response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    },
+    mounted() {
+        this.index();
+    }
+}
 </script>
 
 <template>
-<div class="basket">
-    <div><strong>Название пиццы</strong></div>
-    <div>
-        <strong>Размер:</strong>
+    <div class="basket" v-for="basket in baskets">
+        <div><h1>{{ basket.name }}</h1></div>
+        <div><strong>Размер:</strong> {{ basket.size }} </div>
+        <div><strong>Колличество:</strong> {{ basket.quantity }} </div>
+        <div><strong>Цена:</strong> {{ basket.total_price }}</div>
+        <button class="btn">Офрмить заказ</button>
+        <button class="btn">Удалить из корзины</button>
     </div>
-    <div>Цена</div>
-</div>
 </template>
 
-<style scoped>
+<style>
 * {
     margin: 0;
     padding: 0;

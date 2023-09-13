@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Baskets\BasketController;
+use App\Http\Controllers\Orders\OrderController;
 use App\Http\Controllers\Pizzas\PizzaController;
 use App\Http\Controllers\Pizzas\PizzaListController;
 use Illuminate\Support\Facades\Route;
@@ -17,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PizzaListController::class, 'show']);
-Route::get('/basket', [BasketController::class, 'index']);
-Route::get('/pizza', [PizzaController::class, 'index']);
+Route::get('/basket', [BasketController::class, 'show']);
+Route::get('/order', [OrderController::class, 'show']);

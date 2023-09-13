@@ -1,18 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Orders;
+namespace App\Http\Controllers\Pizzas;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pizzas\Size;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class SizeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $sizeLists = Size::all();
 
+        $sizes = [];
+
+        foreach ($sizeLists as $sizeList) {
+            $sizeId = $sizeList->id;
+            $sizeName = $sizeList->title;
+            $sizeMultiplier = $sizeList->multiplier;
+
+            $sizes[] = [
+                'id' => $sizeId,
+                'name' => $sizeName,
+                'multiplier' => $sizeMultiplier,
+            ];
+        }
+
+        return response()->json($sizes);
     }
 
     /**
@@ -34,9 +51,9 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(string $id)
     {
-        return view('Order.list');
+        //
     }
 
     /**

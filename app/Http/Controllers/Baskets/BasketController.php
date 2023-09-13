@@ -22,30 +22,13 @@ class BasketController extends Controller
             $quantity = $basketList->quantity;
             $totalPrice = $basketList->total_price;
 
-            $foundPizza = null;
-            foreach ($baskets as &$basket) {
-                if ($basket['name'] === $pizzaName) {
-                    $foundPizza = $basket;
-                    break;
-                }
-            }
+            $baskets[] = [
+                'name' => $pizzaName,
+                'size' => $pizzaSize,
+                'quantity' => $quantity,
+                'total_price' => $totalPrice,
+            ];
 
-            $foundSize = null;
-            foreach ($baskets as &$basket) {
-                if ($basket['name'] === $pizzaSize) {
-                    $foundSize = $basket;
-                    break;
-                }
-            }
-
-            if (!$foundPizza && !$foundSize) {
-                $baskets[] = [
-                    'name' => $pizzaName,
-                    'size' => $pizzaSize,
-                    'quantity' => $quantity,
-                    'total_price' => $totalPrice,
-                ];
-            }
         }
 
         return response()->json($baskets);
@@ -72,7 +55,7 @@ class BasketController extends Controller
         }
 
         // Вычислите цену с учетом множителя размера
-        $totalPrice = floatval($pizza->price) * floatval($size->markup);
+        $totalPrice = floatval($pizza->price) * floatval($size->multiplier);
 //        dd($price);
         // Добавьте пиццу с размером в корзину
         Basket::create([

@@ -17,7 +17,7 @@ class SizeFactory extends Factory
         return [
             'slug'      => $this->faker->slug,
             'title'     => $this->faker->title,
-            'markup'    => $this->faker->randomFloat(1, 1, 2),
+            'multiplier'    => $this->faker->randomFloat(1, 1, 2),
         ];
     }
 }

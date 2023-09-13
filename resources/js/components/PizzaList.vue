@@ -4,11 +4,13 @@ import axios from "axios";
 export default {
     data() {
         return {
-            pizzas: []
+            pizzas: [],
+            sizes: [],
+            quantity: 0,
         }
     },
     methods: {
-        async index() {
+        async addPizzaList() {
             try {
                 const response = await axios.get('/api/pizza_lists');
                 console.log(response.data)
@@ -17,15 +19,23 @@ export default {
                 console.error(error);
             }
         },
-        async addToBasket(pizzaId) {
+        async addSizeList() {
+            try {
+                const response = await axios.get('/api/size');
+                console.log(response.data);
+                this.sizes = response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async addToBasket(pizzaId, sizeId, quantity) {
             try {
                 console.log(pizzaId);
                 const response = await axios.post(`/api/basket`, {
                     pizza_id: pizzaId,
-                    quantity: 1,
-                    size_id: 1,
+                    quantity: sizeId,
+                    size_id: quantity,
                 });
-
                 alert(response.data.message);
             } catch (error) {
                 console.error(error)
@@ -34,7 +44,8 @@ export default {
         }
     },
     mounted() {
-        this.index();
+        this.addPizzaList();
+        this.addSizeList();
     }
 }
 </script>
@@ -43,8 +54,15 @@ export default {
     <div class="pizza-list" v-for="pizza in pizzas">
         <div class="card-name">{{ pizza.name }}</div>
         <div class="card"><strong>Ингридиенты:</strong> {{ pizza.ingredients.join(', ') }}</div>
+
+        <div class="btn-size" v-for="size in sizes">
+            <input type="checkbox" v-model="sizes">
+            <label>{{size.name}}</label>
+        </div>
+        <input type="number" v-model="quantity">
         <div class="card"><strong>Цена:</strong> {{ pizza.price }}р</div>
-        <button class="btn" @click="addToBasket(pizza.id)"> Добавить в корзину</button>
+
+        <button class="btn" @click="addToBasket(pizza.id, sizes.id, quantity.value)"> Добавить в корзину</button>
     </div>
 </template>
 
@@ -77,5 +95,9 @@ export default {
     border-radius: 10px;
     color: darkslateblue;
     border: 1px solid darkslateblue;
+}
+.btn-size {
+    margin-top: 5px;
+    display: -webkit-flex;
 }
 </style>

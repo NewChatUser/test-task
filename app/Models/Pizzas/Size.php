@@ -15,7 +15,7 @@ class Size extends Model
     protected $fillable = [
         'slug',
         'title',
-        'markup',
+        'multiplier',
     ];
 
     public function baskets()

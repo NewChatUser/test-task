@@ -6,15 +6,17 @@ export default {
         return {
             pizzas: [],
             sizes: [],
-            quantity: 0,
         }
     },
     methods: {
         async addPizzaList() {
             try {
                 const response = await axios.get('/api/pizza_lists');
-                console.log(response.data)
-                this.pizzas = response.data;
+                this.pizzas = response.data.map(pizza => ({
+                    ...pizza,
+                    selectedSizeId: 1, // Изначально не выбран размер для каждой пиццы
+                    quantity: 1, // Изначальное количество
+                }));
             } catch (error) {
                 console.error(error);
             }
@@ -22,26 +24,42 @@ export default {
         async addSizeList() {
             try {
                 const response = await axios.get('/api/size');
-                console.log(response.data);
                 this.sizes = response.data;
             } catch (error) {
                 console.error(error);
             }
         },
+        selectSize(pizza, size) {
+            pizza.selectedSizeId = size.id; // Устанавливаем выбранный размер для данной пиццы
+        },
+        decrementQuantity(pizza) {
+            if (pizza.quantity > 1) {
+                pizza.quantity--;
+            }
+        },
+        incrementQuantity(pizza) {
+            pizza.quantity++;
+        },
+        calculatePrice(pizza) {
+            const selectedSize = this.sizes.find(size => size.id === pizza.selectedSizeId);
+            if (selectedSize) {
+                return (parseFloat(pizza.price) * selectedSize.multiplier * pizza.quantity).toFixed(2);
+            } else {
+                return parseFloat(pizza.price).toFixed(2);
+            }
+        },
         async addToBasket(pizzaId, sizeId, quantity) {
             try {
-                console.log(pizzaId);
                 const response = await axios.post(`/api/basket`, {
                     pizza_id: pizzaId,
-                    quantity: sizeId,
-                    size_id: quantity,
+                    size_id: sizeId,
+                    quantity: quantity,
                 });
                 alert(response.data.message);
             } catch (error) {
                 console.error(error)
             }
-
-        }
+        },
     },
     mounted() {
         this.addPizzaList();
@@ -51,18 +69,32 @@ export default {
 </script>
 
 <template>
-    <div class="pizza-list" v-for="pizza in pizzas">
-        <div class="card-name">{{ pizza.name }}</div>
-        <div class="card"><strong>Ингридиенты:</strong> {{ pizza.ingredients.join(', ') }}</div>
-
-        <div class="btn-size" v-for="size in sizes">
-            <input type="checkbox" v-model="sizes">
-            <label>{{size.name}}</label>
+    <div class="pizza-list" v-for="pizza in pizzas" :key="pizza.id">
+        <div class="pizza-card">
+            <div class="card-name">{{ pizza.name }}</div>
+            <div class="card"><strong>Ингредиенты:</strong> {{ pizza.ingredients.join(', ') }}</div>
+            <div class="btn-group">
+                <button
+                    class="btn-size"
+                    :class="{ selected: size.id === pizza.selectedSizeId }"
+                    @click="selectSize(pizza, size)"
+                    v-for="size in sizes"
+                    :key="size.id"
+                >
+                    {{ size.name }}
+                </button>
+            </div>
+            <button class="btn-quantity" @click="decrementQuantity(pizza)">-</button>
+            {{ pizza.quantity }}
+            <button class="btn-quantity" @click="incrementQuantity(pizza)">+</button>
+            <div class="card"><strong>Цена:</strong> {{ calculatePrice(pizza) }}р
+            </div>
         </div>
-        <input type="number" v-model="quantity">
-        <div class="card"><strong>Цена:</strong> {{ pizza.price }}р</div>
-
-        <button class="btn" @click="addToBasket(pizza.id, sizes.id, quantity.value)"> Добавить в корзину</button>
+        <div class="pizza-add-to-cart">
+            <button class="btn" @click="addToBasket(pizza.id, pizza.selectedSizeId, pizza.quantity)"> Добавить в
+                корзину
+            </button>
+        </div>
     </div>
 </template>
 
@@ -78,10 +110,12 @@ export default {
     padding: 10px;
     border: 2px solid darkslateblue;
     border-radius: 10px;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card-name {
-    margin-top: 5px;
     font-size: 32px;
     font-weight: bold;
 }
@@ -90,14 +124,55 @@ export default {
     margin-top: 5px;
     display: -webkit-flex;
     align-items: end;
+    align-content: center;
+    justify-content: center;
     padding: 10px 15px;
     background: none;
     border-radius: 10px;
     color: darkslateblue;
     border: 1px solid darkslateblue;
 }
+
 .btn-size {
+    background-color: #ccc;
+    color: #000;
+    padding: 5px 10px;
     margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.btn-quantity {
+    background-color: #ccc;
+    color: #000;
+    padding: 5px 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.selected {
+    /* Стили для выбранной кнопки размера */
+    background-color: darkslateblue;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.pizza-card {
+    display: block;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.pizza-add-to-cart {
     display: -webkit-flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 </style>

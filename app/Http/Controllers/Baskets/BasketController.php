@@ -97,6 +97,15 @@ class BasketController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $basket = Basket::find($id);
+
+        if (!$basket) {
+            return response()->json(['message' => 'Товар в корзине не найден'], 404);
+        }
+
+        // Удалите товар из корзины
+        $basket->delete();
+
+        return response()->json(['message' => 'Товар успешно удален из корзины'], 200);
     }
 }
